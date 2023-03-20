@@ -6,3 +6,13 @@ Resources:
       Tags:
         - Key: Name
           Value: DemoVPC
+
+    DemoPublicSubnet:
+      Type: 'AWS::EC2::Subnet'
+      Properties:
+        VpcId: !Ref DemoVPC
+        CidrBlock: '10.0.10.0/16'
+        AvailabilityZone: ap-southeast-1a
+        Tags: 
+        - Key: Name
+          Value: PublicSubnetA
