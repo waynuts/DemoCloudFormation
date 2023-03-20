@@ -32,6 +32,7 @@ Resources:
     Properties:
     VpcId: !Ref DemoVPC
     CidrBlock: "10.0.16.0/20"
+    AvailabilityZone: ap-southeast-1a
     Tags:
     - Key: Name
       Value: PrivateSubnetA
@@ -41,6 +42,7 @@ Resources:
     Properties:
     VpcId: !Ref DemoVPC
     CidrBlock: "10.0.32.0/20"
+    AvailabilityZone: ap-southeast-1b
     Tags:
     - Key: Name
       Value: PrivateSubnetB
