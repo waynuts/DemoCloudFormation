@@ -2,47 +2,47 @@ Resources:
   DemoVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: '10.0.0.0/16'
+      CidrBlock: "10.0.0.0/16"
       Tags:
         - Key: Name
           Value: DemoVPC
 
-    DemoPublicSubnetA:
+    PublicSubnetA:
       Type: AWS::EC2::Subnet
       Properties:
         VpcId: !Ref DemoVPC
         CidrBlock: "10.0.10.0/24"
         AvailabilityZone: ap-southeast-1a
         Tags: 
-        - Key: Name
-          Value: PublicSubnetA
+          - Key: Name
+            Value: PublicSubnetA
 
-    DemoPublicSubnetB:
-    Type: AWS::EC2::Subnet
-    Properties:
-    VpcId: !Ref DemoVPC
-    CidrBlock: "10.0.1.0/24"
-    AvailabilityZone: ap-southeast-1b
-    Tags:
-    - Key: Name
-      Value: PublicSubnetB
+    PublicSubnetB:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref DemoVPC
+        CidrBlock: "10.0.1.0/24"
+        AvailabilityZone: ap-southeast-1b
+        Tags:
+          - Key: Name
+            Value: PublicSubnetB
 
-    DemoPrivateSubnetA:
-    Type: AWS::EC2::Subnet
-    Properties:
-    VpcId: !Ref DemoVPC
-    CidrBlock: "10.0.16.0/20"
-    AvailabilityZone: ap-southeast-1a
-    Tags:
-    - Key: Name
-      Value: PrivateSubnetA
+    PrivateSubnetA:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref DemoVPC
+        CidrBlock: "10.0.16.0/20"
+        AvailabilityZone: ap-southeast-1a
+        Tags:
+          - Key: Name
+            Value: PrivateSubnetA
 
-    DemoPrivateSubnetB:
-    Type: AWS::EC2::Subnet
-    Properties:
-    VpcId: !Ref DemoVPC
-    CidrBlock: "10.0.32.0/20"
-    AvailabilityZone: ap-southeast-1b
-    Tags:
-    - Key: Name
-      Value: PrivateSubnetB
+    PrivateSubnetB:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref DemoVPC
+        CidrBlock: "10.0.32.0/20"
+        AvailabilityZone: ap-southeast-1b
+        Tags:
+          - Key: Name
+            Value: PrivateSubnetB
