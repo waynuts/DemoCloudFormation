@@ -42,3 +42,9 @@ Resources:
       Tags:
         - Key: Name
           Value: PrivateSubnetB
+  DemoIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: DemoIGW
