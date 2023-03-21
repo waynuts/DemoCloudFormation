@@ -68,3 +68,14 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref DemoIGW
+  BastionHost:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0e2e292a9c4fb2f29
+      InstanceType: t2.micro
+      KeyName: default
+      VpcId: !Ref DemoVPC
+      SubnetId: !Ref PublicSubnetA
+      Tags: 
+        - Key: Name
+          Value: BastionHost
