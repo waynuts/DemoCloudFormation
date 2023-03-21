@@ -50,6 +50,10 @@ Resources:
       Tags:
         - Key: Name
           Value: DemoIGW
+  AttachtoVPC:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref DemoVPC
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
