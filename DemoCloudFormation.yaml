@@ -68,6 +68,18 @@ Resources:
       Tags:
         - Key: Name
           Value: PrivateRouteTable
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnetA
+      SubnetId: !Ref PublicSubnetB
+  PrivateSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnetA
+      SubnetId: !Ref PrivateSubnetB
   DemoRoute:
     Type: AWS::EC2::Route
     Properties:
