@@ -62,3 +62,9 @@ Resources:
       Tags:
         - Key: Name
           Value: PrivateRouteTable
+  DemoRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref DemoIGW
