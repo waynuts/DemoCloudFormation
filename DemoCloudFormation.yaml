@@ -97,3 +97,7 @@ Resources:
       Tags: 
         - Key: Name
           Value: BastionHost
+  DemoKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: DemoKeyPair
