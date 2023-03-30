@@ -69,36 +69,108 @@ Resources:
       Tags:
         - Key: Name
           Value: PrivateRouteTable
-  PublicSubnetRouteTableAssociation:
+  PublicSubnetARouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnetA
+  PublicSubnetBRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnetB
-  PrivateSubnetRouteTableAssociation:
+  PrivateSubnetARouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       SubnetId: !Ref PrivateSubnetA
+  PrivateSubnetBRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
       SubnetId: !Ref PrivateSubnetB
-  DemoRoute:
+  PublicRoute:
     Type: AWS::EC2::Route
     Properties:
       RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref DemoIGW
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      InstanceId: !Ref NatInstance
   BastionHost:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-0e2e292a9c4fb2f29
       InstanceType: t2.micro
-      KeyName: default
-      VpcId: !Ref DemoVPC
       SubnetId: !Ref PublicSubnetA
-      Tags: 
+      Tags:
         - Key: Name
           Value: BastionHost
   DemoKeyPair:
     Type: AWS::EC2::KeyPair
     Properties:
       KeyName: DemoKeyPair
+  PrivateInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0e2e292a9c4fb2f29
+      InstanceType: t2.micro
+      KeyName: !Ref DemoKeyPair
+      SubnetId: !Ref PrivateSubnetA
+      SecurityGroupIds:
+        - !Ref InstanceSecurityGrup
+      Tags:
+        - Key: Name
+          Value: PrivateInstance
+  InstanceSecurityGrup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: PrivateSG
+      GroupDescription: Allow SSH form BastionHost
+      VpcId: !Ref DemoVPC
+  InstanceSecurityGrupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref InstanceSecurityGrup
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      Description: Allow SSH traffic from a specified source
+      CidrIp: 0.0.0.0/0
+  NatInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0e2e292a9c4fb2f29
+      InstanceType: t2.micro
+      KeyName: !Ref DemoKeyPair
+      SubnetId: !Ref PublicSubnetA
+      SecurityGroupIds:
+        - !Ref NatSecurityGroup
+      Tags:
+        - Key: Name
+          Value: NatInstance
+  NatSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: NatInstanceSG
+      GroupDescription: SG for NAT Instance
+      VpcId: !Ref DemoVPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 10.0.0.0/16
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 10.0.0.0/16
+      - IpProtocol: icmp
+        CidrIp: 0.0.0.0/0
