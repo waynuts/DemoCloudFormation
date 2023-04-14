@@ -107,9 +107,22 @@ Resources:
       ImageId: ami-0e2e292a9c4fb2f29
       InstanceType: t2.micro
       SubnetId: !Ref PublicSubnetA
+      SecurityGroupIds:
+        - !Ref BastionHostSecurityGrup
       Tags:
         - Key: Name
           Value: BastionHost
+  BastionHostSecurityGrup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: BastionHostSG
+      GroupDescription: SG for BastionHost
+      VpcId: !Ref DemoVPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
   DemoKeyPair:
     Type: AWS::EC2::KeyPair
     Properties:
